@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { ethers, Eip1193Provider } from 'ethers';
-import { CheckCircleIcon, ClockIcon } from 'lucide-react';
+import { CheckCircleIcon, ClockIcon, CoinsIcon } from 'lucide-react';
 
-const CONTRACT_ADDRESS = "0x1Ec235203D71544C279085407F4171a3EAFce3a8";
+const CONTRACT_ADDRESS = "0x9Ee6eEDa242d9775BDb5e3AbE3BB8BdA72e84A8a";
 const FINDER_ADDRESS = "0xf4C48eDAd256326086AEfbd1A53e1896815F8f13"; 
-const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_finderAddress","type":"address"},{"internalType":"address","name":"_currency","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"assertionId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"taskId","type":"uint256"},{"indexed":true,"internalType":"address","name":"asserter","type":"address"}],"name":"AssertionMade","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"taskId","type":"uint256"},{"indexed":true,"internalType":"address","name":"creator","type":"address"},{"indexed":false,"internalType":"string","name":"description","type":"string"},{"indexed":false,"internalType":"uint256","name":"reward","type":"uint256"}],"name":"TaskCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"taskId","type":"uint256"},{"indexed":true,"internalType":"address","name":"asserter","type":"address"},{"indexed":false,"internalType":"uint256","name":"reward","type":"uint256"}],"name":"TaskSettled","type":"event"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"assertions","outputs":[{"internalType":"address","name":"asserter","type":"address"},{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"bytes","name":"ancillaryData","type":"bytes"},{"internalType":"int256","name":"assertedValue","type":"int256"},{"internalType":"uint256","name":"taskId","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"description","type":"string"},{"internalType":"uint256","name":"reward","type":"uint256"}],"name":"createTask","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"currency","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"finder","outputs":[{"internalType":"contract FinderInterface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getAllTasks","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"},{"internalType":"string[]","name":"","type":"string[]"},{"internalType":"uint256[]","name":"","type":"uint256[]"},{"internalType":"bool[]","name":"","type":"bool[]"},{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"taskId","type":"uint256"}],"name":"getTask","outputs":[{"internalType":"string","name":"description","type":"string"},{"internalType":"uint256","name":"reward","type":"uint256"},{"internalType":"bool","name":"completed","type":"bool"},{"internalType":"address","name":"creator","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"taskId","type":"uint256"},{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"bytes","name":"ancillaryData","type":"bytes"},{"internalType":"int256","name":"assertedValue","type":"int256"},{"internalType":"uint256","name":"bond","type":"uint256"},{"internalType":"uint64","name":"liveness","type":"uint64"}],"name":"makeAssertion","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"nextAssertionId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nextTaskId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"oo","outputs":[{"internalType":"contract OptimisticOracleV2Interface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"priceIdentifier","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"assertionId","type":"uint256"},{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"bytes","name":"ancillaryData","type":"bytes"}],"name":"settleAndGetResult","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"tasks","outputs":[{"internalType":"address","name":"creator","type":"address"},{"internalType":"string","name":"description","type":"string"},{"internalType":"uint256","name":"reward","type":"uint256"},{"internalType":"bool","name":"completed","type":"bool"}],"stateMutability":"view","type":"function"}]; 
+const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_finderAddress","type":"address"},{"internalType":"address","name":"_currency","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"bytes","name":"ancillaryData","type":"bytes"},{"internalType":"int256","name":"assertedValue","type":"int256"}],"name":"assertAndRatify","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"asserters","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"currency","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"bytes","name":"ancillaryData","type":"bytes"},{"internalType":"int256","name":"assertedValue","type":"int256"}],"name":"disperseRewards","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"finder","outputs":[{"internalType":"contract FinderInterface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"bytes","name":"ancillaryData","type":"bytes"}],"name":"getResult","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"bytes","name":"ancillaryData","type":"bytes"},{"internalType":"int256","name":"assertedValue","type":"int256"},{"internalType":"uint256","name":"bond","type":"uint256"},{"internalType":"uint64","name":"liveness","type":"uint64"}],"name":"makeAssertion","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"oo","outputs":[{"internalType":"contract OptimisticOracleV2Interface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"priceIdentifier","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"bytes","name":"ancillaryData","type":"bytes"}],"name":"ratifyAssertion","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"rewardedAssertions","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"bytes","name":"ancillaryData","type":"bytes"}],"name":"settleAndGetResult","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"nonpayable","type":"function"}];
 const FINDER_ABI = [{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"interfaceName","type":"bytes32"},{"indexed":true,"internalType":"address","name":"newImplementationAddress","type":"address"}],"name":"InterfaceImplementationChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[{"internalType":"bytes32","name":"interfaceName","type":"bytes32"},{"internalType":"address","name":"implementationAddress","type":"address"}],"name":"changeImplementationAddress","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"interfaceName","type":"bytes32"}],"name":"getImplementationAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"interfacesImplemented","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"}];
 const STORE_ABI = [{"inputs":[{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"internalType":"struct FixedPoint.Unsigned","name":"_fixedOracleFeePerSecondPerPfc","type":"tuple"},{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"internalType":"struct FixedPoint.Unsigned","name":"_weeklyDelayFeePerSecondPerPfc","type":"tuple"},{"internalType":"address","name":"_timerAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"roleId","type":"uint256"},{"indexed":true,"internalType":"address","name":"newMember","type":"address"},{"indexed":true,"internalType":"address","name":"manager","type":"address"}],"name":"AddedSharedMember","type":"event"},{"anonymous":false,"inputs":[{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"indexed":false,"internalType":"struct FixedPoint.Unsigned","name":"newFinalFee","type":"tuple"}],"name":"NewFinalFee","type":"event"},{"anonymous":false,"inputs":[{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"indexed":false,"internalType":"struct FixedPoint.Unsigned","name":"newOracleFee","type":"tuple"}],"name":"NewFixedOracleFeePerSecondPerPfc","type":"event"},{"anonymous":false,"inputs":[{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"indexed":false,"internalType":"struct FixedPoint.Unsigned","name":"newWeeklyDelayFeePerSecondPerPfc","type":"tuple"}],"name":"NewWeeklyDelayFeePerSecondPerPfc","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"roleId","type":"uint256"},{"indexed":true,"internalType":"address","name":"oldMember","type":"address"},{"indexed":true,"internalType":"address","name":"manager","type":"address"}],"name":"RemovedSharedMember","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"roleId","type":"uint256"},{"indexed":true,"internalType":"address","name":"newMember","type":"address"},{"indexed":true,"internalType":"address","name":"manager","type":"address"}],"name":"ResetExclusiveMember","type":"event"},{"inputs":[],"name":"SECONDS_PER_WEEK","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"roleId","type":"uint256"},{"internalType":"address","name":"newMember","type":"address"}],"name":"addMember","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"currency","type":"address"}],"name":"computeFinalFee","outputs":[{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"internalType":"struct FixedPoint.Unsigned","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"internalType":"struct FixedPoint.Unsigned","name":"pfc","type":"tuple"}],"name":"computeRegularFee","outputs":[{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"internalType":"struct FixedPoint.Unsigned","name":"regularFee","type":"tuple"},{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"internalType":"struct FixedPoint.Unsigned","name":"latePenalty","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"finalFees","outputs":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"fixedOracleFeePerSecondPerPfc","outputs":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"roleId","type":"uint256"}],"name":"getMember","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"roleId","type":"uint256"},{"internalType":"address","name":"memberToCheck","type":"address"}],"name":"holdsRole","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"payOracleFees","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"erc20Address","type":"address"},{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"internalType":"struct FixedPoint.Unsigned","name":"amount","type":"tuple"}],"name":"payOracleFeesErc20","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"roleId","type":"uint256"},{"internalType":"address","name":"memberToRemove","type":"address"}],"name":"removeMember","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"roleId","type":"uint256"}],"name":"renounceMembership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"roleId","type":"uint256"},{"internalType":"address","name":"newMember","type":"address"}],"name":"resetMember","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"time","type":"uint256"}],"name":"setCurrentTime","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"currency","type":"address"},{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"internalType":"struct FixedPoint.Unsigned","name":"newFinalFee","type":"tuple"}],"name":"setFinalFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"internalType":"struct FixedPoint.Unsigned","name":"newFixedOracleFeePerSecondPerPfc","type":"tuple"}],"name":"setFixedOracleFeePerSecondPerPfc","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"components":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"internalType":"struct FixedPoint.Unsigned","name":"newWeeklyDelayFeePerSecondPerPfc","type":"tuple"}],"name":"setWeeklyDelayFeePerSecondPerPfc","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"timerAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"weeklyDelayFeePerSecondPerPfc","outputs":[{"internalType":"uint256","name":"rawValue","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"erc20Address","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawErc20","outputs":[],"stateMutability":"nonpayable","type":"function"}];
 const CURRENCY_ABI = [{"inputs":[{"internalType":"string","name":"name","type":"string"},{"internalType":"string","name":"symbol","type":"string"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"subtractedValue","type":"uint256"}],"name":"decreaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"addedValue","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"mint","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}]; 
+
 
 declare global {
   interface Window {
@@ -17,25 +18,30 @@ declare global {
   }
 }
 
-interface Task {
-  id: number;
-  description: string;
-  reward: string;
-  status: 'available' | 'pending' | 'completed';
-  creator: string;
+interface Assertion {
+  id: string;
+  timestamp: number;
+  ancillaryData: string;
+  rawAncillaryData: Uint8Array;
+  assertedValue: number;
+  status: 'pending' | 'resolved' | 'rewarded';
+  email?: string;
 }
 
-const TaskClaimSystem = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
-  const [rewardAddress, setRewardAddress] = useState<string>('');
+const OptimisticArbitratorApp = () => {
+  // State variables
+  const [assertions, setAssertions] = useState<Assertion[]>([]);
+  const [assertionText, setAssertionText] = useState<string>('');
+  const [assertedValue, setAssertedValue] = useState<number>(1); // Default to "Yes" (1)
   const [email, setEmail] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isSettling, setIsSettling] = useState<boolean>(false);
+  const [isClaiming, setIsClaiming] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [newTaskDescription, setNewTaskDescription] = useState<string>('');
-  const [newTaskReward, setNewTaskReward] = useState<string>('');
   const [currencyDecimals, setCurrencyDecimals] = useState<number>(6); // USDC default decimals
+
+  // Get currency decimals
   const getCurrencyDecimals = async () => {
     try {
       const provider = new ethers.BrowserProvider(window.ethereum);
@@ -49,50 +55,99 @@ const TaskClaimSystem = () => {
     }
   };
 
-  const fetchTasks = async () => {
+  // Fetch user's assertions
+  const fetchAssertions = async () => {
     try {
+      // Try to load from localStorage first
+      const savedAssertions = localStorage.getItem('userAssertions');
+      const localAssertions = savedAssertions ? JSON.parse(savedAssertions) : [];
+      
       const provider = new ethers.BrowserProvider(window.ethereum);
       const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
       
-      // Call the getAllTasks function from the updated contract
-      const [ids, descriptions, rewards, completed, creators] = await contract.getAllTasks();
+      // Update status of local assertions
+      const updatedAssertions: Assertion[] = [];
       
-      const fetchedTasks: Task[] = [];
-      for (let i = 0; i < ids.length; i++) {
-        fetchedTasks.push({
-          id: parseInt(ids[i]),
-          description: descriptions[i],
-          reward: ethers.formatUnits(rewards[i], currencyDecimals), // Format with USDC decimals
-          status: completed[i] ? 'completed' : 'available',
-          creator: creators[i]
-        });
+      for (const assertion of localAssertions) {
+        try {
+          // Convert from stored format back to usable format
+          const rawData = assertion.rawAncillaryData 
+            ? new Uint8Array(Object.values(assertion.rawAncillaryData)) 
+            : ethers.toUtf8Bytes(assertion.ancillaryData);
+          
+          // Check status
+          let status: 'pending' | 'resolved' | 'rewarded' = 'pending';
+          
+          try {
+            // This will throw if not resolved
+            await contract.getResult(assertion.timestamp, rawData);
+            
+            // If it doesn't throw, it's resolved
+            status = 'resolved';
+            
+            // Check if rewarded
+            const assertionKey = ethers.keccak256(
+              ethers.solidityPacked(['uint256', 'bytes'], [assertion.timestamp, rawData])
+            );
+            
+            const isRewarded = await contract.rewardedAssertions(assertionKey);
+            if (isRewarded) {
+              status = 'rewarded';
+            }
+          } catch (error) {
+            // If it throws, it's still pending
+            status = 'pending';
+            console.log(error);
+          }
+          
+          updatedAssertions.push({
+            ...assertion,
+            status,
+            rawAncillaryData: rawData
+          });
+        } catch (error) {
+          // If there's an error processing this assertion, keep it as is
+          updatedAssertions.push(assertion);
+          console.log(error)
+        }
       }
-      setTasks(fetchedTasks);
+      
+      setAssertions(updatedAssertions);
+      
+      // Save updated assertions back to localStorage
+      localStorage.setItem('userAssertions', JSON.stringify(updatedAssertions));
+      
     } catch (err) {
-      console.error("Error fetching tasks:", err);
-      setError(`Error fetching tasks: ${err instanceof Error ? err.message : String(err)}`);
+      console.error("Error fetching assertions:", err);
+      setError(`Error fetching assertions: ${err instanceof Error ? err.message : String(err)}`);
+      
+      // Fallback to localStorage only
+      const savedAssertions = localStorage.getItem('userAssertions');
+      if (savedAssertions) {
+        setAssertions(JSON.parse(savedAssertions));
+      }
     }
   };
   
+  // Initialize
   useEffect(() => {
-    fetchTasks();
     getCurrencyDecimals();
-  }, [fetchTasks, getCurrencyDecimals]);
+    fetchAssertions();
+  }, []);
 
-
-
-  const handleClaimTask = (taskId: number) => {
-    setSelectedTaskId(taskId);
-    setError(null);
-    setSuccessMessage(null);
-  };
-
-  const handleSubmitClaim = async (e: React.FormEvent) => {
+  // Submit a new assertion
+  const handleSubmitAssertion = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
-    if (!selectedTaskId) {
-      setError('Please select a task first');
+    
+    if (!assertionText) {
+      setError("Please enter an assertion");
+      return;
+    }
+
+    if (!email) {
+      setError("Please enter your email address");
       return;
     }
 
@@ -107,11 +162,7 @@ const TaskClaimSystem = () => {
       if (!latestBlock) throw new Error("Failed to fetch latest block");
       const requestTimestamp = latestBlock.timestamp;
 
-      const task = tasks.find(t => t.id === selectedTaskId);
-      if (!task) throw new Error("Task not found");
-
-      const ancillaryData = ethers.toUtf8Bytes(task.description);
-      const YES_ANSWER = 1; // Using plain 1 value for success
+      const ancillaryData = ethers.toUtf8Bytes(assertionText);
 
       const storeAddress = await finder.getImplementationAddress(ethers.encodeBytes32String("Store"));
       const store = new ethers.Contract(storeAddress, STORE_ABI, provider);
@@ -129,137 +180,264 @@ const TaskClaimSystem = () => {
       const approval = await currency.approve(CONTRACT_ADDRESS, totalAmount);
       await approval.wait();
 
-      // Call the makeAssertion function with the task ID
+      // Call the makeAssertion function
       const assertionTx = await contract.makeAssertion(
-        selectedTaskId, // Pass the task ID (not timestamp as the first parameter)
         requestTimestamp,
         ancillaryData,
-        YES_ANSWER,
+        assertedValue,
         bond,
-        60
+        60 // 60 seconds liveness for testing
       );
-      await assertionTx.wait();
+      const receipt = await assertionTx.wait();
       
-      setSuccessMessage(`Task claimed successfully! You will receive an email at ${email} once verification is complete.`);
-      setSelectedTaskId(null);
-      fetchTasks();
+      // Generate unique ID for local storage
+      const timestamp = Date.now();
+      const newId = `local-${timestamp}`;
+      
+      // Create new assertion object
+      const newAssertion: Assertion = {
+        id: newId,
+        timestamp: requestTimestamp,
+        ancillaryData: assertionText,
+        rawAncillaryData: ancillaryData,
+        assertedValue: assertedValue,
+        status: 'pending',
+        email: email
+      };
+      
+      // Update assertions array
+      const updatedAssertions = [...assertions, newAssertion];
+      setAssertions(updatedAssertions);
+      
+      // Save to localStorage
+      localStorage.setItem('userAssertions', JSON.stringify(updatedAssertions));
+      
+      // Submit to endpoint
+      try {
+        const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT || '/api/assertions';
+        
+        const userAddress = await signer.getAddress();
+        
+        await fetch(apiEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            assertionText: assertionText,
+            assertedValue: assertedValue,
+            timestamp: requestTimestamp,
+            userAddress: userAddress,
+            transactionHash: receipt.hash,
+            chainId: (await provider.getNetwork()).chainId.toString()
+          }),
+        });
+      } catch (apiError) {
+        console.error("Failed to submit to API, but blockchain transaction was successful:", apiError);
+        // We don't set an error here as the blockchain transaction was successful
+      }
+      
+      setSuccessMessage(`Assertion submitted successfully!`);
+      setAssertionText('');
+      setEmail('');
     } catch (err) {
-      setError(`Error submitting task claim: ${err instanceof Error ? err.message : String(err)}`);
+      setError(`Error submitting assertion: ${err instanceof Error ? err.message : String(err)}`);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleCreateTask = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Settle an assertion
+  const handleSettleAssertion = async (assertion: Assertion) => {
+    setIsSettling(true);
     setError(null);
     setSuccessMessage(null);
-
-    if (!newTaskDescription || !newTaskReward) {
-      setError("Please provide both description and reward");
-      return;
-    }
-
+    
     try {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
-
-      const rewardInWei = ethers.parseUnits(newTaskReward, currencyDecimals);
-
-      const currencyAddress = await contract.currency();
-      const currency = new ethers.Contract(currencyAddress, CURRENCY_ABI, signer);
       
-      // First approve the contract to spend tokens
-      const approval = await currency.approve(CONTRACT_ADDRESS, rewardInWei);
-      await approval.wait();
-      console.log("Approved");
+      const settleTx = await contract.settleAndGetResult(
+        assertion.timestamp,
+        assertion.rawAncillaryData
+      );
+      await settleTx.wait();
       
-      // Create the task with the approved tokens
-      const tx = await contract.createTask(newTaskDescription, rewardInWei);
-      await tx.wait();
-
-      setSuccessMessage("Task created successfully!");
-      setNewTaskDescription('');
-      setNewTaskReward('');
-      fetchTasks();
+      // Update assertion status in local state
+      const updatedAssertions = assertions.map(a => {
+        if (a.id === assertion.id) {
+          return { ...a, status: 'resolved' as const };
+        }
+        return a;
+      });
+      
+      setAssertions(updatedAssertions);
+      
+      // Update localStorage
+      localStorage.setItem('userAssertions', JSON.stringify(updatedAssertions));
+      
+      setSuccessMessage(`Assertion settled successfully!`);
     } catch (err) {
-      setError(`Error creating task: ${err instanceof Error ? err.message : String(err)}`);
+      setError(`Error settling assertion: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setIsSettling(false);
+    }
+  };
+
+  // Claim reward for a correct assertion
+  const handleClaimReward = async (assertion: Assertion) => {
+    setIsClaiming(true);
+    setError(null);
+    setSuccessMessage(null);
+    
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+      
+      const claimTx = await contract.disperseRewards(
+        assertion.timestamp,
+        assertion.rawAncillaryData,
+        assertion.assertedValue
+      );
+      await claimTx.wait();
+      
+      // Update assertion status in local state
+      const updatedAssertions = assertions.map(a => {
+        if (a.id === assertion.id) {
+          return { ...a, status: 'rewarded' as const };
+        }
+        return a;
+      });
+      
+      setAssertions(updatedAssertions);
+      
+      // Update localStorage
+      localStorage.setItem('userAssertions', JSON.stringify(updatedAssertions));
+      
+      setSuccessMessage(`Reward claimed successfully!`);
+    } catch (err) {
+      setError(`Error claiming reward: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setIsClaiming(false);
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md border border-black">
-      <h1 className="text-2xl font-bold mb-6 text-black">Task Claiming Portal</h1>
+      <h1 className="text-2xl font-bold mb-6 text-black">Optimistic Arbitrator</h1>
 
-      <h2 className="text-lg font-semibold mb-4 text-black">Available Tasks</h2>
-      <div className="space-y-4">
-        {tasks.length > 0 ? (
-          tasks.map(task => (
-            <TaskItem 
-              key={task.id}
-              task={task}
-              isSelected={selectedTaskId === task.id}
-              isDisabled={task.status !== 'available'}
-              onSelect={() => handleClaimTask(task.id)}
+      {/* Make Assertion Form */}
+      <div className="mb-8 p-4 border rounded-md">
+        <h2 className="text-lg font-semibold mb-4 text-black">Make an Assertion</h2>
+        <form onSubmit={handleSubmitAssertion} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-black mb-1">Assertion Statement:</label>
+            <textarea 
+              value={assertionText} 
+              onChange={(e) => setAssertionText(e.target.value)} 
+              required 
+              className="w-full text-black border border-black p-2 rounded h-24"
+              placeholder="Enter your assertion here..."
             />
-          ))
-        ) : (
-          <p className="text-gray-500">No tasks available.</p>
-        )}
-      </div>
-
-      {selectedTaskId !== null && (
-        <div className="mt-6 p-4 border rounded-md">
-          <h2 className="text-lg font-semibold mb-4 text-black">Claim Task</h2>
-          <form onSubmit={handleSubmitClaim} className="space-y-4">
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-black mb-1">Email Address:</label>
             <input 
               type="email" 
-              placeholder="Your Email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
               className="w-full text-black border border-black p-2 rounded"
+              placeholder="Your email for notifications"
             />
-            <input 
-              type="text" 
-              placeholder="ETH Address for Reward" 
-              value={rewardAddress} 
-              onChange={(e) => setRewardAddress(e.target.value)} 
-              required 
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-black mb-1">Assertion Value:</label>
+            <select
+              value={assertedValue}
+              onChange={(e) => setAssertedValue(parseInt(e.target.value))}
               className="w-full text-black border border-black p-2 rounded"
-            />
-            <button 
-              type="submit" 
-              className="w-full bg-black text-white py-2 rounded"
-              disabled={isSubmitting}
             >
-              {isSubmitting ? 'Submitting...' : 'Submit Claim'}
-            </button>
-          </form>
-        </div>
-      )}
+              <option value={1}>YES (True)</option>
+              <option value={0}>NO (False)</option>
+            </select>
+          </div>
+          
+          <button 
+            type="submit" 
+            className="w-full bg-black text-white py-2 rounded"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit Assertion'}
+          </button>
+        </form>
+      </div>
 
-      <h2 className="text-lg font-semibold mb-4 text-black mt-6">Create a New Task</h2>
-      <form onSubmit={handleCreateTask} className="space-y-4">
-        <input 
-          type="text" 
-          placeholder="Task Description" 
-          value={newTaskDescription} 
-          onChange={(e) => setNewTaskDescription(e.target.value)} 
-          required 
-          className="w-full text-black border border-black p-2 rounded"
-        />
-        <input 
-          type="text" 
-          placeholder="Reward (USDC)" 
-          value={newTaskReward} 
-          onChange={(e) => setNewTaskReward(e.target.value)} 
-          required 
-          className="w-full border text-black border-black p-2 rounded"
-        />
-        <button type="submit" className="w-full bg-black text-white py-2 rounded">Create Task</button>
-      </form>
+      {/* My Assertions */}
+      <div>
+        <h2 className="text-lg font-semibold mb-4 text-black">My Assertions</h2>
+        {assertions.length > 0 ? (
+          <div className="space-y-4">
+            {assertions.map(assertion => (
+              <div key={assertion.id} className="p-4 border rounded-md">
+                <div className="flex justify-between">
+                  <h3 className="font-medium text-black">{assertion.ancillaryData}</h3>
+                  <div className="flex items-center">
+                    {assertion.status === 'pending' ? (
+                      <span className="flex items-center text-yellow-500">
+                        <ClockIcon className="h-5 w-5 mr-1" />
+                        Pending
+                      </span>
+                    ) : assertion.status === 'resolved' ? (
+                      <span className="flex items-center text-blue-500">
+                        <CheckCircleIcon className="h-5 w-5 mr-1" />
+                        Resolved
+                      </span>
+                    ) : (
+                      <span className="flex items-center text-green-500">
+                        <CoinsIcon className="h-5 w-5 mr-1" />
+                        Rewarded
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <p className="text-sm text-black mt-1">
+                  Asserted: {assertion.assertedValue === 1 ? 'YES' : 'NO'}
+                </p>
+                
+                <div className="mt-3 flex gap-2">
+                  {assertion.status === 'pending' && (
+                    <button 
+                      onClick={() => handleSettleAssertion(assertion)}
+                      disabled={isSettling}
+                      className="px-3 py-1 bg-blue-500 text-white rounded text-sm"
+                    >
+                      {isSettling ? 'Processing...' : 'Settle'}
+                    </button>
+                  )}
+                  
+                  {assertion.status === 'resolved' && (
+                    <button 
+                      onClick={() => handleClaimReward(assertion)}
+                      disabled={isClaiming}
+                      className="px-3 py-1 bg-green-500 text-white rounded text-sm"
+                    >
+                      {isClaiming ? 'Claiming...' : 'Claim Reward'}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500">No assertions yet.</p>
+        )}
+      </div>
 
       {error && <div className="mt-4 p-2 bg-red-100 text-red-600 rounded">{error}</div>}
       {successMessage && <div className="mt-4 p-2 bg-green-100 text-green-600 rounded">{successMessage}</div>}
@@ -267,37 +445,5 @@ const TaskClaimSystem = () => {
   );
 };
 
-// Task Item Component
-const TaskItem = ({ task, isSelected, isDisabled, onSelect }: { 
-  task: Task, 
-  isSelected: boolean, 
-  isDisabled: boolean, 
-  onSelect: () => void 
-}) => (
-  <div 
-    className={`p-4 border rounded-md ${!isDisabled ? 'cursor-pointer' : ''} ${
-      isDisabled ? 'bg-gray-200' : isSelected ? 'border-black bg-gray-100' : 'hover:border-black'
-    }`}
-    onClick={!isDisabled ? onSelect : undefined}
-  >
-    <div className="flex justify-between">
-      <h3 className="font-medium text-black">{task.description}</h3>
-      <div className="flex items-center">
-        {task.status === 'completed' ? (
-          <CheckCircleIcon className="h-5 w-5 text-green-500" />
-        ) : task.status === 'pending' ? (
-          <ClockIcon className="h-5 w-5 text-yellow-500" />
-        ) : null}
-      </div>
-    </div>
-    <p className="text-sm text-black mt-1">Reward: {task.reward} USDC</p>
-    <p className="text-xs text-gray-500 mt-1">Created by: {formatAddress(task.creator)}</p>
-  </div>
-);
 
-// Helper function to format addresses
-const formatAddress = (address: string): string => {
-  return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-};
-
-export default TaskClaimSystem;
+export default OptimisticArbitratorApp;
