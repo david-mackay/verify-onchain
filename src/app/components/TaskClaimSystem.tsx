@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ethers } from 'ethers';
+import { ethers, Eip1193Provider } from 'ethers';
 import { CheckCircleIcon, ClockIcon, XCircleIcon } from 'lucide-react';
 const CONTRACT_ADDRESS = "0x4522f172f34B33DcC3842512f963955d4Fa6bCa5";
 const FINDER_ADDRESS = "0xf4C48eDAd256326086AEfbd1A53e1896815F8f13"; 
@@ -198,6 +198,13 @@ const CONTRACT_ABI = [
   }
 ];
 const FINDER_ABI = [{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"interfaceName","type":"bytes32"},{"indexed":true,"internalType":"address","name":"newImplementationAddress","type":"address"}],"name":"InterfaceImplementationChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[{"internalType":"bytes32","name":"interfaceName","type":"bytes32"},{"internalType":"address","name":"implementationAddress","type":"address"}],"name":"changeImplementationAddress","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"interfaceName","type":"bytes32"}],"name":"getImplementationAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"interfacesImplemented","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"}];
+
+
+declare global {
+  interface Window {
+    ethereum: Eip1193Provider;
+  }
+}
 interface Task {
   id: number; 
   description: string;
