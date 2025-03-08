@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Optimistic Arbitrator
+
+A smart contract for making and verifying claims using UMA's Optimistic Oracle.
+
+## Overview
+
+Optimistic Arbitrator allows users to make assertions about statements they believe to be true. These statements can be disputed by other users, with disputes resolved by UMA's Data Verification Mechanism (DVM).
+
+## How It Works
+
+1. **Make an Assertion**: Propose something you claim to be true by staking a $1000 USDC bond on Sepolia testnet.
+
+2. **Waiting Period**: Your assertion enters a 60-second challenge period.
+
+3. **Resolution**:
+   - If undisputed after 60 seconds, you can reclaim your $1000 bond.
+   - If disputed, UMA token holders vote on the truth of your claim.
+
+4. **Rewards**: Correct assertions may receive additional rewards from the contract.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- MetaMask or another Web3 wallet
+- USDC on Sepolia testnet
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Making an Assertion
+1. Connect your wallet
+2. Enter your claim in the form
+3. Submit and approve the $1000 USDC bond transaction
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Claiming Your Bond
+1. After the 60-second waiting period, return to the app
+2. Click "Claim Bond" on your undisputed assertion
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Viewing Results
+You can view all assertions, their status, and outcomes directly on the app.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Common Issues
 
-## Learn More
+- **Approval Required**: You must approve the contract to spend your USDC before making assertions
+- **Insufficient Balance**: Ensure you have enough USDC for the bond amount
+- **Reward Claiming Issues**: If experiencing "Insufficient balance for reward" errors, the contract may not have enough funds to pay rewards
 
-To learn more about Next.js, take a look at the following resources:
+## Contract Details
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Deployed on Sepolia: 0x9734Dd9b7fA3609F2D790EAF8BcFBBcA185bBA24.
+- Uses UMA's Optimistic Oracle V2
+- Currency: USDC (Sepolia) 0x96d738c9Fd8Ab12d92ef215FE4cbd6A07F254799
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Security
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This is an experimental contract. Use at your own risk and only with funds you can afford to lose.
